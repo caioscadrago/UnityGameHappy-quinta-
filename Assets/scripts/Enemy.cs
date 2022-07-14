@@ -7,8 +7,11 @@ public class Enemy : MonoBehaviour
     public float speed = 2;
     private Rigidbody2D rig;
     public bool Grounded;
+    public bool EnemyWall;
     public Transform groundcheck;
+    public Transform Wallcheck;
     public LayerMask layerchao;
+    public LayerMask  InimigoWall;
     // Start is called before the first frame update
     void Start()
     {
@@ -19,13 +22,24 @@ public class Enemy : MonoBehaviour
     void FixedUpdate()
     {
         Grounded = Physics2D.OverlapCircle(groundcheck.position,0.1f,layerchao);
-        if(!Grounded)
+        EnemyWall = Physics2D.OverlapCircle(Wallcheck.position,0.1f,InimigoWall);
+
+        if(!Grounded||EnemyWall)
         {
             gameObject.transform.localScale = new Vector3(gameObject.transform.localScale.x * -1,1,1);
         }
         else
         {
-            rig.velocity = new Vector2(speed*-1,rig.velocity.y);
+            if(gameObject.transform.localScale.x <0)
+            {
+                rig.velocity = new Vector2(speed*-1,rig.velocity.y);
+            }
+            else
+            {
+                rig.velocity = new Vector2(speed,rig.velocity.y);
+            }
         }
     }
+
+
 }

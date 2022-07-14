@@ -13,6 +13,9 @@ public class Player: MonoBehaviour
 
     private Animator animate;
 
+    [SerializeField] private AudioSource Jump;
+    [SerializeField] private AudioSource Death;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -58,6 +61,7 @@ public class Player: MonoBehaviour
         if(transform.position.y < -16)
         {
             transform.position = new Vector3(-9,5,0);
+            Death.Play();
         }
 
 
@@ -77,6 +81,7 @@ public class Player: MonoBehaviour
         {
            rig.velocity = new Vector2(rig.velocity.x, ForcaPulo);
             animate.SetBool("Pulando", true);
+            Jump.Play();
         }
     }
 
@@ -85,7 +90,8 @@ public class Player: MonoBehaviour
     
       if(colide.gameObject.tag == "Enemy")
       {
-          Destroy(gameObject);
+         transform.position = new Vector3(-9,5,0);
+         Death.Play();
       }
 
     }
