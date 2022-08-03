@@ -30,6 +30,7 @@ public class Enemy : MonoBehaviour
         }
         else
         {
+            //codigo de movimento
             if(gameObject.transform.localScale.x <0)
             {
                 rig.velocity = new Vector2(speed*-1,rig.velocity.y);
