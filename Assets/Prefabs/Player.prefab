@@ -43,7 +43,7 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: -0.05763054, y: -0.4657511}
@@ -178,6 +178,8 @@ MonoBehaviour:
   ForcaPulo: 20
   TaVoando: 0
   criar: {fileID: 0}
+  Respawn: {fileID: 0}
+  AltMin: -16
   Jump: {fileID: 6435245861410429329}
   Death: {fileID: 675934581877997156}
 --- !u!95 &2057044869492053125

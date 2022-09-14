@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Player: MonoBehaviour
 {
@@ -10,8 +11,10 @@ public class Player: MonoBehaviour
     private Rigidbody2D rig;
     public bool TaVoando = true;
     public Rigidbody2D criar;
-
     private Animator animate;
+    public Transform Respawn;
+    public float AltMin =-16;
+    public static int vida = 10;
 
     [SerializeField] private AudioSource Jump;
     [SerializeField] private AudioSource Death;
@@ -58,18 +61,19 @@ public class Player: MonoBehaviour
 
 
 
-        if(transform.position.y < -16)
+        if(transform.position.y < AltMin)
         {
-            transform.position = new Vector3(-9,5,0);
+            transform.position = Respawn.transform.position;
             Death.Play();
+            vida -=1;
         }
 
 
         //cria objeto
-        if(Input.GetButton("Fire1"))
-        {
+       // if(Input.GetButton("Fire1"))
+        //{
             //Rigidbody2D criarclone= (Rigidbody2D) Instantiate(criar, gameObject.transform.position, gameObject.transform.rotation);
-        }
+       // }
 
 
     }
@@ -90,8 +94,13 @@ public class Player: MonoBehaviour
     
       if(colide.gameObject.tag == "Enemy")
       {
-         transform.position = new Vector3(-9,5,0);
+         transform.position = Respawn.transform.position;
          Death.Play();
+         vida-=1;
+      }
+      if(colide.gameObject.tag=="Next Level")
+      {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex +1);
       }
 
     }
