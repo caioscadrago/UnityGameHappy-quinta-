@@ -15,6 +15,7 @@ public class Player: MonoBehaviour
     public Transform Respawn;
     public float AltMin =-16;
     public static int vida = 10;
+    public static int coin = 0;
 
     [SerializeField] private AudioSource Jump;
     [SerializeField] private AudioSource Death;
@@ -31,6 +32,10 @@ public class Player: MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(vida <0)
+        {
+            SceneManager.LoadScene("game over");
+        }
         //faz valor do movimento
         Movimento = Input.GetAxis("Horizontal");
 
@@ -103,6 +108,14 @@ public class Player: MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex +1);
       }
 
+    }
+    private void OnTriggerEnter2D(Collider2D colide) 
+    {
+          if(colide.gameObject.tag=="coin")
+      {
+        Destroy(colide.gameObject);
+        coin +=1;
+      }
     }
    
     void VirarSprite (float DirecaoMovimento)

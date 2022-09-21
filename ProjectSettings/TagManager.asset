@@ -8,6 +8,7 @@ TagManager:
   - Enemy
   - Next Level
   - Stomp
+  - coin
   layers:
   - Default
   - TransparentFX
