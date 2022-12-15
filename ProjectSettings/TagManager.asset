@@ -9,6 +9,8 @@ TagManager:
   - Next Level
   - Stomp
   - coin
+  - Teleport
+  - Personagem
   layers:
   - Default
   - TransparentFX

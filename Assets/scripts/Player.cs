@@ -10,15 +10,20 @@ public class Player: MonoBehaviour
     public float ForcaPulo = 50f;
     private Rigidbody2D rig;
     public bool TaVoando = true;
-    public Rigidbody2D criar;
     private Animator animate;
     public Transform Respawn;
     public float AltMin =-16;
-    public static int vida = 10;
+    public static int vida = 3;
     public static int coin = 0;
 
     [SerializeField] private AudioSource Jump;
     [SerializeField] private AudioSource Death;
+    [SerializeField] private AudioSource Coinsfx;
+    [SerializeField] private AudioSource Checkpoint;
+
+    //variáveis para corrigir a moeda
+    public bool coinfix = true;
+    public int cointimer = 5;
 
     // Start is called before the first frame update
     void Start()
@@ -47,7 +52,13 @@ public class Player: MonoBehaviour
 
         //pula
         Pulo();
+        GoToMenu();
 
+
+        if (this.animate.GetCurrentAnimatorStateInfo(0).IsName("Idle"))
+        {
+            Debug.Log("idle encontrado");
+        }
         TaVoando= PéDoPlayer.Tavoando;
 
         if(!TaVoando)
@@ -74,12 +85,14 @@ public class Player: MonoBehaviour
         }
 
 
-        //cria objeto
-       // if(Input.GetButton("Fire1"))
-        //{
-            //Rigidbody2D criarclone= (Rigidbody2D) Instantiate(criar, gameObject.transform.position, gameObject.transform.rotation);
-       // }
-
+        if(!coinfix)
+        {
+            cointimer-=1; //é a mesma coisa que cointimer = cointimer-1
+            if (cointimer<=0)
+            {
+                coinfix=true;
+            }
+        }
 
     }
 
@@ -94,6 +107,17 @@ public class Player: MonoBehaviour
         }
     }
 
+    void GoToMenu()
+    {
+        if(Input.GetButton("Cancel"))
+        {
+            vida =3;
+            SceneManager.LoadScene("Menu");
+            //código para mandar mensagem no console
+            Debug.Log("bom dia");
+            
+        }
+    }
     void OnCollisionEnter2D(Collision2D colide)
     {
     
@@ -111,10 +135,19 @@ public class Player: MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D colide) 
     {
-          if(colide.gameObject.tag=="coin")
+          if(colide.gameObject.tag=="coin"&&coinfix)
       {
         Destroy(colide.gameObject);
         coin +=1;
+        Coinsfx.Play();
+        coinfix = false;
+        cointimer = 5;
+      }
+      if(colide.gameObject.tag=="Respawn")
+      {
+        Respawn.position=colide.transform.position;
+        Checkpoint.Play();
+        colide.gameObject.tag = "Untagged";
       }
     }
    

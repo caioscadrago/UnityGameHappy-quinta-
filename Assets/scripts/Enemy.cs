@@ -12,10 +12,27 @@ public class Enemy : MonoBehaviour
     public Transform Wallcheck;
     public LayerMask layerchao;
     public LayerMask  InimigoWall;
+    public AudioSource Som;
+
+    //variáveis timer
+
+    public float timeratual = 0f;
+    public float timerinicial = 8f;
     // Start is called before the first frame update
     void Start()
     {
         rig = GetComponent<Rigidbody2D>();
+        timeratual = timerinicial;
+    }
+
+    void Update()
+    {
+        timeratual -= 1 * Time.deltaTime;
+        if(timeratual<=0)
+        {
+            Som.Play();
+            timeratual = timerinicial;
+        }
     }
 
     // Update is called once per frame
